@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class EditServlet extends HttpServlet {
+    private int counter = 0;
+
     private ProductManager handle(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -25,6 +27,23 @@ public class EditServlet extends HttpServlet {
             return;
         }
 
+
+        if (request.getSession().getAttribute("editSessionCounter") == null) {
+            request.getSession().setAttribute("editSessionCounter", 0);
+        }
+
+        if (getServletContext().getAttribute("editContextCounter") == null) {
+            getServletContext().setAttribute("editContextCounter", 0);
+        }
+
+        counter += 1;
+
+        int sessionCounter = (int) request.getSession().getAttribute("editSessionCounter") + 1;
+        int contextCounter = (int) getServletContext().getAttribute("editContextCounter") + 1;
+
+        request.getSession().setAttribute("editSessionCounter", sessionCounter);
+        getServletContext().setAttribute("editContextCounter", contextCounter);
+
         ProductManager productManager = handle(request,response);
         Integer pk = Integer.valueOf(request.getParameter("productId"));
         Product product = productManager.getProductByPK(pk);
@@ -34,6 +53,12 @@ public class EditServlet extends HttpServlet {
 
         java.io.Writer writer = response.getWriter();
         writer.append("<html><body>");
+        writer.append("licznik pola: ");
+        writer.append(counter + "<br>");
+        writer.append("licznik sesji: ");
+        writer.append(sessionCounter + "<br>");
+        writer.append("licznik kontekstu: ");
+        writer.append(contextCounter + "<br>");
         if (request.getParameter("error") != null) {
             writer.append(request.getParameter("error"));
         }
