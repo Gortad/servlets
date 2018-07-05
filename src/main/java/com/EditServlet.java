@@ -69,6 +69,11 @@ public class EditServlet extends HttpServlet {
         writer.append("<input type='submit' value='Zapisz'>");
         writer.append("</form>");
         writer.append("<a href='../list'>Anuluj</a>");
+        writer.append("<form action='?action=logout' method='post'>");
+        writer.append("<button type='submit'>");
+        writer.append("Wyloguj");
+        writer.append("</button>");
+        writer.append("</form>");
         writer.append("</body></html>");
     }
 

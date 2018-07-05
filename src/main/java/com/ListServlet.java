@@ -75,7 +75,18 @@ public class ListServlet extends HttpServlet {
         writer.append("<a href='edit/?productId=" + productManager.getNewPk() + "'>");
         writer.append("Dodaj nowy!");
         writer.append("</a>");
+        writer.append("<form action='?action=logout' method='post'>");
+        writer.append("<button type='submit'>");
+        writer.append("Wyloguj");
+        writer.append("</button>");
+        writer.append("</form>");
+
         writer.append("</body>");
         writer.append("</html>");
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
     }
 }
