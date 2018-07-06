@@ -105,7 +105,7 @@ public class EditServlet extends HttpServlet {
             String name = request.getParameter("name");
             Integer price = Integer.valueOf(request.getParameter("price"));
             Product product = new Product(name, price, pk);
-            if (productManager.getProductsList().size() > pk) {
+            if (productManager.getNewPk() > pk) {
                 productManager.updateProduct(product);
             } else {
                 productManager.insertProduct(product);

@@ -1,6 +1,7 @@
 package com;
 
 import product.Product;
+import product.ProductDatabaseManagerImpl;
 import product.ProductManager;
 import product.ProductMemoryManagerImpl;
 
@@ -37,9 +38,8 @@ public class ListServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         if (request.getSession().getAttribute("productManager") == null) {
-            ProductManager productManager = new ProductMemoryManagerImpl();
-            productManager.insertProduct(new Product("woda", 3, 0));
-            productManager.insertProduct(new Product("cola", 6, 1));
+            ProductManager productManager = new ProductDatabaseManagerImpl();
+      //      productManager.insertProduct(new Product("nowe", 7, 0));
             request.getSession().setAttribute("productManager", productManager);
         }
         ProductManager productManager = (ProductManager) request.getSession().getAttribute("productManager");

@@ -15,14 +15,17 @@ public class ProductMemoryManagerImpl implements ProductManager {
         }
     }
 
+    @Override
     public Integer getNewPk() {
         return newPk;
     }
 
+    @Override
     public List<Product> getProductsList() {
         return products;
     }
 
+    @Override
     public Product getProductByPK(Integer pk) {
         for (Product product : products) {
             if (pk.equals(product.getPk())) {
@@ -32,11 +35,13 @@ public class ProductMemoryManagerImpl implements ProductManager {
         return null;
     }
 
+    @Override
     public void insertProduct(Product product) {
         updateNewPk(product);
         products.add(product);
     }
 
+    @Override
     public void updateProduct(Product product) {
         updateNewPk(product);
         for (int i = 0; i < products.size(); ++i) {
@@ -47,6 +52,7 @@ public class ProductMemoryManagerImpl implements ProductManager {
         }
     }
 
+    @Override
     public void deleteProduct(Product product) {
         products.remove(product);
     }
