@@ -3,7 +3,6 @@ package com;
 import product.Product;
 import product.ProductDatabaseManagerImpl;
 import product.ProductManager;
-import product.ProductMemoryManagerImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Obsługuje ekran listy produktów
+ *
+ * @author Ryszard Poklewski-Koziełł
+ */
 public class ListServlet extends HttpServlet {
     private int counter = 0;
 

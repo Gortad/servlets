@@ -8,6 +8,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+/**
+ * Implementacja zarządcy produktów {@link Product} korzystająca z bazy danych.
+ *
+ * @author Ryszard Poklewski-Koziełł
+ */
 public class ProductDatabaseManagerImpl implements ProductManager {
 
     private Connection getDirectConnection() throws SQLException {
@@ -49,12 +54,13 @@ public class ProductDatabaseManagerImpl implements ProductManager {
             while (resultSet.next()) {
                 Product product = new Product(
                         resultSet.getString("name"),
-                        resultSet.getInt("price"),
+                        resultSet.getBigDecimal("price"),
                         resultSet.getInt("pk"));
                 productList.add(product);
             }
             return productList;
         } catch (SQLException e) {
+            e.printStackTrace();
             System.err.println("Connection error during getList");
             return new ArrayList<>();
         }
@@ -68,7 +74,7 @@ public class ProductDatabaseManagerImpl implements ProductManager {
             preparedStatement.setInt(1, pk);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet != null && resultSet.next()) {
-                return new Product(resultSet.getString("name"), resultSet.getInt("price"), resultSet.getInt("pk"));
+                return new Product(resultSet.getString("name"), resultSet.getBigDecimal("price"), resultSet.getInt("pk"));
             } else {
                 return null;
             }
@@ -84,7 +90,7 @@ public class ProductDatabaseManagerImpl implements ProductManager {
             PreparedStatement preparedStatement = connection.
                     prepareStatement("INSERT INTO product(name, price) VALUES (?, ?)");
             preparedStatement.setString(1, product.getName());
-            preparedStatement.setInt(2, product.getPrice());
+            preparedStatement.setBigDecimal(2, product.getPrice());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Connection error during insert");
@@ -97,7 +103,7 @@ public class ProductDatabaseManagerImpl implements ProductManager {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE product " +
                     " SET name = ?, price = ? WHERE pk = ?");
             preparedStatement.setString(1, product.getName());
-            preparedStatement.setInt(2, product.getPrice());
+            preparedStatement.setBigDecimal(2, product.getPrice());
             preparedStatement.setInt(3, product.getPk());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

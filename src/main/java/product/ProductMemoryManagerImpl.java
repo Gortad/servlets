@@ -3,7 +3,11 @@ package product;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Implementacja zarządcy produktów {@link Product} zapisująca dane w pamięci.
+ *
+ * @author Ryszard Poklewski-Koziełł
+ */
 public class ProductMemoryManagerImpl implements ProductManager {
     private List<Product> products = new ArrayList<>();
 

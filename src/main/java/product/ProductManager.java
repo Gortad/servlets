@@ -2,6 +2,12 @@ package product;
 
 import java.util.List;
 
+/**
+ * Zarządca produktów udostępniający mechanizmy pozwalające na manipulacje danych.
+ *
+ * @author Ryszard Poklewski-Koziełł
+ */
+
 public interface ProductManager {
     List<Product> getProductsList();
 

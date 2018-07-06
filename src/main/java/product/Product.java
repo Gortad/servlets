@@ -1,9 +1,16 @@
 package product;
 
+import java.math.BigDecimal;
+
+/**
+ * Reprezentuje instancje produktu w systemie.
+ *
+ * @author Ryszard Poklewski-Koziełł
+ */
 public class Product {
     private String name;
 
-    private int price;
+    private BigDecimal price;
 
     private Integer pk;
 
@@ -11,7 +18,7 @@ public class Product {
         return name;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -19,7 +26,7 @@ public class Product {
         return pk;
     }
 
-    public Product(String name, int price, Integer pk) {
+    public Product(String name, BigDecimal price, Integer pk) {
         this.name = name;
         this.price = price;
         this.pk = pk;

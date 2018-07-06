@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Obsługuje akcje związane z autoryzacją.
+ *
+ * @author Ryszard Poklewski-Koziełł
+ */
 public class LoginFilter implements Filter {
 
     public void init(FilterConfig filterConfig) {

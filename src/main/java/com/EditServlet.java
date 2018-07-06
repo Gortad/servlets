@@ -9,12 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
+/**
+ * Obsługuje ekran edycji produktu.
+ *
+ * @author Ryszard Poklewski-Koziełł
+ */
 
 public class EditServlet extends HttpServlet {
     private int counter = 0;
 
     private ProductManager handle(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         return (ProductManager) request.getSession().getAttribute("productManager");
@@ -48,7 +56,7 @@ public class EditServlet extends HttpServlet {
         Integer pk = Integer.valueOf(request.getParameter("productId"));
         Product product = productManager.getProductByPK(pk);
         if (product == null) {
-            product = new Product("", 0, pk);
+            product = new Product("", new BigDecimal("0.0"), pk);
         }
 
         java.io.Writer writer = response.getWriter();
@@ -64,7 +72,7 @@ public class EditServlet extends HttpServlet {
         }
         writer.append("<form action='?action=save_product' method='post'>");
         writer.append("Produkt: <input type='text' name='name' value='" + product.getName() + "'> <br>");
-        writer.append("Cena: <input type='number' name='price' value='" + product.getPrice() + "'> <br>");
+        writer.append("Cena: <input type='number' min='0' step='0.01' name='price' value='" + product.getPrice() + "'> <br>");
         writer.append("<input type='hidden' name='productId' value='" + product.getPk() + "'> <br>");
         writer.append("<input type='submit' value='Zapisz'>");
         writer.append("</form>");
@@ -92,18 +100,23 @@ public class EditServlet extends HttpServlet {
             productManager.deleteProduct(productManager.getProductByPK(pk));
         } else {
             if ((request.getParameter("name")).equals("") || (request.getParameter("price")).equals("")) {
-                String errormsg = "Bledy:<br>";
+                String errorMsg = "Bledy:<br>";
                 if ((request.getParameter("name")).equals("")) {
-                    errormsg += "nazwa nie moze byc pusta<br>";
+                    errorMsg += "nazwa nie moze byc pusta<br>";
                 }
                 if ((request.getParameter("price")).equals("")) {
-                    errormsg += "cena nie moze byc pusta<br>";
+                    errorMsg += "cena nie moze byc pusta<br>";
                 }
-                response.sendRedirect("../edit/?productId=" + pk + "&" + "error=" + errormsg);
+                DecimalFormat decimalFormat = new DecimalFormat(request.getParameter("price"));
+                if (decimalFormat.isParseBigDecimal()) {
+                    errorMsg += "cena musi być liczbą <br>";
+                }
+
+                response.sendRedirect("../edit/?productId=" + pk + "&" + "error=" + errorMsg);
                 return;
             }
             String name = request.getParameter("name");
-            Integer price = Integer.valueOf(request.getParameter("price"));
+            BigDecimal price = new BigDecimal(request.getParameter("price"));
             Product product = new Product(name, price, pk);
             if (productManager.getNewPk() > pk) {
                 productManager.updateProduct(product);
