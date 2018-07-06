@@ -39,7 +39,6 @@ public class ListServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         if (request.getSession().getAttribute("productManager") == null) {
             ProductManager productManager = new ProductDatabaseManagerImpl();
-      //      productManager.insertProduct(new Product("nowe", 7, 0));
             request.getSession().setAttribute("productManager", productManager);
         }
         ProductManager productManager = (ProductManager) request.getSession().getAttribute("productManager");
